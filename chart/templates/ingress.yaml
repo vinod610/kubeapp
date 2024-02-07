@@ -1,0 +1,29 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: "firsthelm"
+  {{- with .Values.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  ingressClassName: {{ .Values.ingress.ingressClassName }}
+  rules:
+    - host: "firsthelmapp.dev.vinod.net"
+      http:
+        paths:
+          - backend:
+              service:
+                name: "{{ .Release.Name }}-{{ .Values.app.name }}"
+                port:
+                  number: {{ .Values.app.port }}
+            path: /
+            pathType: Prefix
+
+
+
+
+
+
+
+
